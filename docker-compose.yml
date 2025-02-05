@@ -1,0 +1,47 @@
+
+services:
+  db:
+    image: mysql:9.1.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_database
+      # MYSQL_USER: root
+      MYSQL_PASSWORD: 1999NO1q
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest_app
+    restart: always
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_USER: root
+      DATABASE_PASSWORD: 1999NO1q
+      DATABASE_NAME: user_database
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:

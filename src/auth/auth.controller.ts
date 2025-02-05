@@ -4,7 +4,8 @@ import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { LocalAuthGuard } from './local-auth/local-auth.guard';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
+// import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 // import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')

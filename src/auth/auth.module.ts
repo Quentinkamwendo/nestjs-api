@@ -9,7 +9,8 @@ import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { ConfigService } from '@nestjs/config';
-import { User } from 'src/user/entities/user.entity';
+// import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @Module({
   imports: [

@@ -11,13 +11,17 @@ export class ItemsService {
     @InjectRepository(Items)
     private itemsRepository: Repository<Items>,
   ) {}
-  create(createItemDto: CreateItemDto): Promise<Items> {
-    const newItem = this.itemsRepository.create(createItemDto);
+  create(createItemDto: CreateItemDto, user): Promise<Items> {
+    const newItem = this.itemsRepository.create({
+      item_name: createItemDto.item_name,
+      description: createItemDto.description,
+      user: user,
+    });
     return this.itemsRepository.save(newItem);
   }
 
   findAll(): Promise<Items[]> {
-    return this.itemsRepository.find();
+    return this.itemsRepository.find({ relations: ['user'] });
   }
 
   findOne(id: string): Promise<Items> {

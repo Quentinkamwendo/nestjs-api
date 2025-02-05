@@ -1,4 +1,5 @@
-import { Items } from 'src/items/entities/item.entity';
+// import { Items } from 'src/items/entities/item.entity';
+import { Items } from '../../items/entities/item.entity';
 import {
   Column,
   CreateDateColumn,

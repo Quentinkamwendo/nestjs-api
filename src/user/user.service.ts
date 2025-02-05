@@ -14,12 +14,12 @@ export class UserService {
     private usersRepository: Repository<User>,
   ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({ where: { username } });
+  async findOne(id: string): Promise<User | undefined> {
+    return this.usersRepository.findOne({ where: { id } });
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({ relations: ['item'] });
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {

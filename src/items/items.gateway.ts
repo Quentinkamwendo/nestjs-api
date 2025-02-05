@@ -53,9 +53,11 @@ export class ItemsGateway implements OnGatewayConnection {
   // @UseGuards(AuthGuard('jwt'))
   @SubscribeMessage('createItem')
   async create(
+    @ConnectedSocket() client: Socket,
     @MessageBody() createItemDto: CreateItemDto,
   ): Promise<CreateItemDto> {
-    const item = await this.itemsService.create(createItemDto);
+    const user = client.request.user.sub;
+    const item = await this.itemsService.create(createItemDto, user);
     this.server.emit('itemCreated', item);
     return item;
   }

@@ -5,13 +5,13 @@ FROM node:20.17.0
 WORKDIR /app
 
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
-COPY api/package*.json ./
+COPY package*.json ./
 
 # Install app dependencies
 RUN npm install
 
 # Bundle app source
-COPY api/ ./
+COPY . ./
 
 # Copy the .env and .env.development files
 # COPY .env .env.development ./
