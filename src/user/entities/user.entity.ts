@@ -32,6 +32,9 @@ export class User {
   @Column({ default: false })
   isActive: boolean;
 
+  @Column({ nullable: true })
+  activationToken: string;
+
   @OneToMany(() => Items, (item) => item.user)
   item: Items[];
 }

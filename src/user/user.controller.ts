@@ -6,6 +6,9 @@ import {
   Put,
   Param,
   Delete,
+  Patch,
+  NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -38,5 +41,23 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
+  }
+
+  // @Patch('activate/:id')
+  // async activateUser(@Param('id') id: string) {
+  //   return this.userService.activateUser(id);
+  // }
+
+  @Patch('deactivate/:id')
+  async deactivateUser(@Param('id') id: string) {
+    return this.userService.deactivateUser(id);
+  }
+
+  @Patch('activate')
+  async activateUser(@Query('token') token: string) {
+    const user = await this.userService.activateUser(token);
+    if (!user)
+      throw new NotFoundException('Invalid or expired activation token');
+    return { message: 'Account activated successfully' };
   }
 }

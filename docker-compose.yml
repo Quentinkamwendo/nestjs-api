@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: user_database
       # MYSQL_USER: root
-      MYSQL_PASSWORD: 1999NO1q
+      MYSQL_PASSWORD: root
     ports:
       - "3307:3306"
     volumes:
@@ -36,12 +36,14 @@ services:
       DATABASE_HOST: db
       DATABASE_PORT: 3306
       DATABASE_USER: root
-      DATABASE_PASSWORD: 1999NO1q
+      DATABASE_PASSWORD: root
       DATABASE_NAME: user_database
     ports:
       - "3000:3000"
     depends_on:
       - db
+    # wait for the DB to be ready before booting Nest:
+    entrypoint: ["./wait-for-it.sh", "db:3306", "--", "npm", "run", "start:prod"]
 
 volumes:
   db_data:
