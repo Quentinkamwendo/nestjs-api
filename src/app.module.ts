@@ -46,6 +46,9 @@ import { UserModule } from './user/user.module';
         database: configService.get('database'),
         autoLoadEntities: true,
         synchronize: false,
+        ssl: {
+          ca: process.env.DB_CA_CERT,
+        },
       }),
       inject: [ConfigService],
     }),
