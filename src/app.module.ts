@@ -7,10 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 // import { DatabaseModule } from './database/database.module';
 // import {config as dotenvConfig} from 'dotenv';
 import { ItemsModule } from './items/items.module';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { config } from './config/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { getDataSource } from './data-source';
 // import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
@@ -37,32 +38,25 @@ import { UserModule } from './user/user.module';
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        type: 'mysql',
-        host: configService.get('host'),
-        port: 3306,
-        username: 'root',
-        password: configService.get('password'),
-        database: configService.get('database'),
-        autoLoadEntities: true,
-        synchronize: false,
-        ssl: {
-          ca: process.env.DB_CA_CERT,
-        },
+      useFactory: async () => ({
+        ...(await getDataSource()).options,
       }),
-      inject: [ConfigService],
+      // useFactory: async (configService: ConfigService) => ({
+      //   type: 'mysql',
+      //   host: configService.get('host'),
+      //   port: 3306,
+      //   username: 'root',
+      //   password: configService.get('password'),
+      //   database: configService.get('database'),
+      //   autoLoadEntities: true,
+      //   synchronize: false,
+      //   ssl: {
+      //     ca: process.env.DB_CA_CERT,
+      //   },
+      // }),
+      // inject: [ConfigService],
     }),
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: 'localhost',
-    //   port: 3306,
-    //   username: process.env.USERNAME,
-    //   password: process.env.PASSWORD,
-    //   database: process.env.DATABASE,
-    //   autoLoadEntities: true,
-    //   synchronize: false,
-    //   // migrations: [join(__dirname, 'true./migrations/**/*.{ts,js}')],
-    // }),
+
     ItemsModule,
     AuthModule,
     UserModule,
