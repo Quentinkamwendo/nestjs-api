@@ -1,7 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import * as express from 'express';
+import { Server, createServer, IncomingMessage, ServerResponse } from 'http';
+
+let cachedServer: Server;
 // import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 // async function bootstrap() {
@@ -13,16 +14,15 @@ import * as express from 'express';
 //   await app.listen(3000);
 // }
 // bootstrap();
-const expressApp = express();
-
-export const createNestServer = async (expressInstance: express.Express) => {
-  const app = await NestFactory.create(
-    AppModule,
-    new ExpressAdapter(expressInstance),
-  );
-  await app.init();
-};
-
-createNestServer(expressApp);
-
-export default expressApp;
+export default async function handler(
+  req: IncomingMessage,
+  res: ServerResponse,
+) {
+  if (!cachedServer) {
+    const app = await NestFactory.create(AppModule);
+    await app.init();
+    const expressApp = app.getHttpAdapter().getInstance();
+    cachedServer = createServer(expressApp);
+  }
+  return cachedServer.emit('request', req, res);
+}
