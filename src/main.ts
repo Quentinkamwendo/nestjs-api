@@ -21,6 +21,11 @@ export default async function handler(
   if (!cachedServer) {
     const app = await NestFactory.create(AppModule);
     app.setGlobalPrefix('api');
+    app.enableCors({
+      origin: ['http://localhost:3000', 'https://nestjs-api-psi.vercel.app'],
+      methods: ['GET, HEAD, PUT, PATCH, POST, DELETE', 'OPTIONS'],
+      credentials: true,
+    });
     await app.init();
     const expressApp = app.getHttpAdapter().getInstance();
     cachedServer = createServer(expressApp);
