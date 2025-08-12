@@ -19,6 +19,7 @@ export const getDataSource = async () => {
           process.env.DB_CA_CERT.replace(/\\n/g, '\n'),
           'base64',
         ).toString(),
+        rejectUnauthorized: false,
       },
       extra: { connectionLimit: 1 },
     });
