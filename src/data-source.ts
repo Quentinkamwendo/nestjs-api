@@ -14,6 +14,7 @@ export const getDataSource = async () => {
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
       entities: [User, Items],
+      synchronize: true,
       ssl: {
         ca: Buffer.from(
           process.env.DB_CA_CERT.replace(/\\n/g, '\n'),
