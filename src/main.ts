@@ -20,6 +20,7 @@ export default async function handler(
 ) {
   if (!cachedServer) {
     const app = await NestFactory.create(AppModule);
+    app.setGlobalPrefix('api');
     await app.init();
     const expressApp = app.getHttpAdapter().getInstance();
     cachedServer = createServer(expressApp);
