@@ -21,7 +21,11 @@ export default async function handler(
   if (!cachedServer) {
     const app = await NestFactory.create(AppModule);
     app.setGlobalPrefix('api');
-    app.enableCors();
+    app.enableCors({
+      origin: 'https://angular-ui-iota.vercel.app',
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true,
+    });
     await app.init();
     const expressApp = app.getHttpAdapter().getInstance();
     cachedServer = createServer(expressApp);
