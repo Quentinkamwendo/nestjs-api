@@ -15,7 +15,10 @@ export const getDataSource = async () => {
       database: process.env.DATABASE,
       entities: [User, Items],
       ssl: {
-        ca: Buffer.from(process.env.DB_CA_CERT, 'base64').toString(),
+        ca: Buffer.from(
+          process.env.DB_CA_CERT.replace(/\\n/g, '\n'),
+          'base64',
+        ).toString(),
       },
       extra: { connectionLimit: 1 },
     });
