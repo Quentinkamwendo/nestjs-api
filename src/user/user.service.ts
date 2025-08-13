@@ -47,7 +47,7 @@ export class UserService {
     await this.usersRepository.save(user);
 
     // Send activation email
-    await this.sendActivationEmail(user.email, activationToken);
+    // await this.sendActivationEmail(user.email, activationToken);
     return {
       message:
         'Registration successful! Check your email to activate your account.',
