@@ -3,7 +3,7 @@ export const config = () => ({
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   host: process.env.HOST,
-  port: process.env.PORT,
+  dbport: process.env.DB_PORT || 3306,
   mailhost: process.env.MAIL_HOST,
   mailport: process.env.MAIL_PORT,
   mailsecure: process.env.MAIL_SECURE,

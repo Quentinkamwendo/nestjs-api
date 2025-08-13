@@ -9,7 +9,7 @@ export const getDataSource = async () => {
     dataSource = new DataSource({
       type: 'mysql',
       host: process.env.HOST || 'localhost',
-      port: +process.env.PORT || 3306,
+      port: +process.env.DB_PORT || 3306,
       username: process.env.USERNAME || 'root',
       password: process.env.PASSWORD,
       database: process.env.DATABASE,
